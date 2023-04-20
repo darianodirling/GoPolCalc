@@ -1,0 +1,58 @@
+
+import tkinter as tk
+from tkinter import messagebox
+
+def calculate_grade():
+    try:
+        current_exam_grade = float(entry_current_exam_grade.get())
+        attendance = float(entry_attendance.get())
+        zybooks = float(entry_zybooks.get())
+        desired_final_grade = float(entry_desired_final_grade.get())
+
+        current_exam_weight = 0.67 * 0.55
+        final_exam_weight = 0.67 * 0.45
+        attendance_weight = 0.08
+        zybooks_weight = 0.25
+
+        current_grade = (current_exam_grade * current_exam_weight) + (attendance * attendance_weight) + (zybooks * zybooks_weight)
+        label_current_grade.config(text=f"Current Grade: {current_grade:.2f}%")
+
+        required_final_exam_grade = (desired_final_grade - (current_exam_grade * current_exam_weight) - (attendance * attendance_weight) - (zybooks * zybooks_weight)) / final_exam_weight
+        label_required_final_exam_grade.config(text=f"Required Final Exam Grade: {required_final_exam_grade:.2f}%")
+
+    except ValueError:
+        messagebox.showerror("Error", "Please enter valid numbers")
+
+root = tk.Tk()
+root.title("Grade Calculator")
+
+label_current_exam_grade = tk.Label(root, text="Current Exam Grade (55% of total exam grade):")
+label_current_exam_grade.grid(row=0, column=0)
+entry_current_exam_grade = tk.Entry(root)
+entry_current_exam_grade.grid(row=0, column=1)
+
+label_attendance = tk.Label(root, text="Attendance Average:")
+label_attendance.grid(row=1, column=0)
+entry_attendance = tk.Entry(root)
+entry_attendance.grid(row=1, column=1)
+
+label_zybooks = tk.Label(root, text="Zybooks Average:")
+label_zybooks.grid(row=2, column=0)
+entry_zybooks = tk.Entry(root)
+entry_zybooks.grid(row=2, column=1)
+
+label_desired_final_grade = tk.Label(root, text="Desired Final Grade:")
+label_desired_final_grade.grid(row=3, column=0)
+entry_desired_final_grade = tk.Entry(root)
+entry_desired_final_grade.grid(row=3, column=1)
+
+button_calculate = tk.Button(root, text="Calculate", command=calculate_grade)
+button_calculate.grid(row=4, columnspan=2)
+
+label_current_grade = tk.Label(root, text="")
+label_current_grade.grid(row=5, columnspan=2)
+
+label_required_final_exam_grade = tk.Label(root, text="")
+label_required_final_exam_grade.grid(row=6, columnspan=2)
+
+root.mainloop()
